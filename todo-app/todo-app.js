@@ -9,7 +9,7 @@ const todos = [
     },
     {
         text:  'buy food',
-        completed: true
+        completed: false
     },
     {
         text: 'do work',
@@ -21,37 +21,33 @@ const todos = [
     }
 ];
 
-// listen for new todo creation
-document.querySelector('#add-todo').addEventListener('click', e => {
-    e.target.textContent = 'Add new to do'
-});
+const filters = { 
+    searchText: ''
+};
 
-const incompleteTodos = todos.filter(todo => !todo.completed); 
+const filteredTodos = (todos, filters) => {    
+    const matchedTodos = todos.filter(todo => {
+        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
+    });  
 
-const summary = document.createElement('h2');
-summary.textContent = `You have ${incompleteTodos.length} todos left.` 
-document.querySelector('body').appendChild(summary);
+    const incompleteTodos = matchedTodos.filter(todo => !todo.completed);
 
-todos.forEach(todo => {
-    const paragraph = document.createElement('p');
-    paragraph.textContent = todo.text;    
-    document.querySelector('body').appendChild(paragraph);
+    document.querySelector('#todos').innerHTML = ''; 
+
+    matchedTodos.forEach(todo => {
+        const p = document.createElement('p');
+        p.textContent = todo.text;
+        document.querySelector('#todos').appendChild(p);
+    });
+   
+    const summary = document.createElement('h3');
+    summary.textContent = `You have ${incompleteTodos.length} todos left.` 
+    document.querySelector('#todos').appendChild(summary);
+};
+
+filteredTodos(todos, filters);
+
+document.querySelector('#search-text').addEventListener('input', e => {
+     filters.searchText = e.target.value;
+     filteredTodos(todos, filters);
 })
-
-document.querySelector('#new-todo-text').addEventListener('input', e => {
-    console.log(e.target.value);
-})
-
-// incompleteTodos.forEach(todo => {
-//     const paragraph = document.createElement('p');
-//     paragraph.textContent = todo.text;    
-//     document.querySelector('body').appendChild(paragraph);
-// })
-
-// Remove all p tags that have 'the' in the text
-// const paragraphs = document.querySelectorAll('p');
-// paragraphs.forEach(p => {     
-//    if(p.textContent.toLowerCase().includes('the')) {
-//        p.remove();
-//    }
-// });
