@@ -1,30 +1,14 @@
-const todos = [
-    {
-        text: 'order cat food',
-        completed: false
-    },
-    {
-        text: 'clean kitchen',
-        completed: true
-    },
-    {
-        text:  'buy food',
-        completed: true
-    },
-    {
-        text: 'do work',
-        completed: false
-    },
-    {
-        text:  'exercise',
-        completed: true
-    }
-];
-
+let todos = [];
+    
 const filters = { 
     searchText: '',
     hideCompleted: false
 };
+
+const todoJSON = localStorage.getItem('todos');
+if (todoJSON !== null) {
+    todos = JSON.parse(todoJSON);
+}
 
 const renderTodos = (todos, filters) => {    
 
@@ -44,7 +28,7 @@ const renderTodos = (todos, filters) => {
     //     // }
     // });
 
-    console.log('filteredTodos:', filteredTodos)
+    // console.log('filteredTodos:', filteredTodos)
 
     const incompleteTodos = filteredTodos.filter(todo => !todo.completed);
    
@@ -74,8 +58,11 @@ document.querySelector('#new-todo').addEventListener('submit', e => {
         text: e.target.elements.newTask.value,
         completed: false
     });
+
+    localStorage.setItem('todos', JSON.stringify(todos));
+
     renderTodos(todos, filters);
-    e.target.elements.newTask.value = '';
+    e.target.elements.newTask.value = '';  
 })
 
 document.querySelector('#hide-completed').addEventListener('change', e => {        
