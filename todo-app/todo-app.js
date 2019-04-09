@@ -9,7 +9,7 @@ const todos = [
     },
     {
         text:  'buy food',
-        completed: false
+        completed: true
     },
     {
         text: 'do work',
@@ -22,27 +22,43 @@ const todos = [
 ];
 
 const filters = { 
-    searchText: ''
+    searchText: '',
+    hideCompleted: false
 };
 
 const renderTodos = (todos, filters) => {    
-    const matchedTodos = todos.filter(todo => {
-        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
+
+    let filteredTodos = todos.filter(todo => { 
+        const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
+        const hideCompletedMatch = !filters.hideCompleted || !todo.completed;
+
+        return searchTextMatch && hideCompletedMatch;
     });  
 
-    const incompleteTodos = matchedTodos.filter(todo => !todo.completed);
+    // filteredTodos = filteredTodos.filter(todo => {
+    //    return !filters.hideCompleted || !todo.completed;
+    //     // if (filters.hideCompleted) {
+    //     //     return !todo.completed;
+    //     // } else {
+    //     //     return true     // return all todos
+    //     // }
+    // });
 
+    console.log('filteredTodos:', filteredTodos)
+
+    const incompleteTodos = filteredTodos.filter(todo => !todo.completed);
+   
     document.querySelector('#todos').innerHTML = ''; 
 
     const summary = document.createElement('h3');
     summary.textContent = `You have ${incompleteTodos.length} todos left.` 
     document.querySelector('#todos').appendChild(summary);
 
-    matchedTodos.forEach(todo => {
+    filteredTodos.forEach(todo => {
         const p = document.createElement('p');
         p.textContent = todo.text;
         document.querySelector('#todos').appendChild(p);
-    });
+    });  
 };
 
 renderTodos(todos, filters);
@@ -61,3 +77,8 @@ document.querySelector('#new-todo').addEventListener('submit', e => {
     renderTodos(todos, filters);
     e.target.elements.newTask.value = '';
 })
+
+document.querySelector('#hide-completed').addEventListener('change', e => {        
+    filters.hideCompleted = e.target.checked;
+    renderTodos(todos, filters);
+}) 
