@@ -1,43 +1,24 @@
-let notes = [];
+let notes = getSavedNotes();
 
 const filters = {
-    searchText: ''
-}
-
-// check for existing saved data
-const noteJSON = localStorage.getItem('notes');
-if (noteJSON !== null) {
-    notes = JSON.parse(noteJSON);
-}
-
-const renderNotes = (notes, filters) => {
-    const filteredNotes = notes.filter( note => {
-        return note.title.toLowerCase().includes(filters.searchText.toLowerCase());
-    });    
-    
-   document.querySelector('#notes').innerHTML = '';
-
-   filteredNotes.forEach(note => {
-        const noteEl = document.createElement('p');
-
-        if (note.title.length > 0) {
-            noteEl.textContent = note.title;
-        } else {
-            noteEl.textContent = 'Unnamed note';
-        }
-        document.querySelector('#notes').appendChild(noteEl);
-   })
-}
+    searchText: '',
+    sortBy: 'byEdited'
+} 
 
 renderNotes(notes, filters);
 
 document.querySelector('#create-note').addEventListener('click', (e) => {
+    const id = uuidv4(); 
+    const timestamp = moment().valueOf();      
     notes.push({
+        id: id,       
         title: '',
-        body: ''
-    })
-     localStorage.setItem('notes', JSON.stringify(notes));
-     renderNotes(notes, filters);
+        body: '',
+        createAt: timestamp,
+        updatedAt: timestamp,
+    });
+    savedNotes(notes); 
+    location.assign(`edit.html#${id}`);
 })
 
 document.querySelector('#search-text').addEventListener('input', e => { 
@@ -50,22 +31,14 @@ document.querySelector('#for-fun').addEventListener('change', e => {
 })
 
 document.querySelector('#filter-by').addEventListener('change', e => {
-    console.log(e.target.value)
+    filters.sortBy = e.target.value;
+    renderNotes(notes, filters);
+}) 
+
+window.addEventListener('storage', e => {
+    if (e.key === 'notes') { 
+        notes = JSON.parse(e.newValue); 
+        renderNotes(notes, filters);
+    }
 })
-
-// const user = {
-//     name: 'Andrew',
-//     age: 27
-// }
-
-// const userJSON = JSON.stringify(user);
-// localStorage.setItem('user', userJSON);
-
-// const userJSON = localStorage.getItem('user');
-// const user = JSON.parse(userJSON);
-// console.log(`${user.name} is ${user.age}`);
  
-// localStorage.setItem('location', 'Philadelphia');
-// console.log(localStorage.getItem('location'));
-// localStorage.removeItem('location');
-// localStorage.clear();
