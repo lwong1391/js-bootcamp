@@ -1,11 +1,13 @@
+'use strict'
+
 // Read existing notes from localStorage
-const getSavedNotes = () => {
+const getSavedNotes = () => {    
     const noteJSON = localStorage.getItem('notes');
-    if (noteJSON !== null) {
-        return JSON.parse(noteJSON);
-    } else {
-        return [];
-    }
+    try {
+        return noteJSON ? JSON.parse(noteJSON) : []
+    } catch(e) {
+        return []
+    }    
 }
 
 // save the note to localStorage

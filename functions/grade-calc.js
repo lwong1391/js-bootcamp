@@ -3,8 +3,12 @@
 // A 90-100, B 80-89, C 70-79, D 60-69, F 0-59
 
 
-let gradeCalc = function(studentScore, totalScore) {
-    let percent =  (studentScore / totalScore) * 100;
+const gradeCalc = function(studentScore, totalScore) {
+    if (typeof studentScore !== 'number' || typeof totalScore !== 'number') {
+        throw Error('Please provide numbers only');
+    }
+
+    const percent =  (studentScore / totalScore) * 100;
     let letterGrade = '';
 
     if (percent >= 90) {
@@ -22,8 +26,12 @@ let gradeCalc = function(studentScore, totalScore) {
     return `You got a ${letterGrade} (${percent}%)!`;
 }
 
-let result = gradeCalc(13, 20);
-console.log(result);
+try {
+    const result = gradeCalc(9, 20);
+    console.log(result);
+} catch(e) {
+    console.log(e.message)
+}
 
 
 
