@@ -10,15 +10,15 @@
 const puzzleEl = document.querySelector('#puzzle');
 const guessEl = document.querySelector('#guesses')
 
-const game1 = new Hangman('cat', 2) ;
+const game1 = new Hangman('car parts', 2) ;
 
-puzzleEl.textContent =  game1.getPuzzle(); 
-guessEl.textContent = game1.displayStatusMessage();
+puzzleEl.textContent =  game1.puzzle; 
+guessEl.textContent = game1.statusMessage;
 
 window.addEventListener('keypress', (e) => { 
     const guess = String.fromCharCode(e.charCode);
     game1.makingGuess(guess);     
-    puzzleEl.textContent =  game1.getPuzzle(); 
-    guessEl.textContent = game1.displayStatusMessage();
+    puzzleEl.textContent =  game1.puzzle; 
+    guessEl.textContent = game1.statusMessage;
 })
 
