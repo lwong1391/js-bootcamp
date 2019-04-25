@@ -9,7 +9,6 @@ const getPuzzle = async (wordCount) => {
 
     if (response.status === 200) {
         const data = await response.json();
-        // console.log('data:', data)
         return data.puzzle;
     } else {
         throw new Error('Unable to get puzzle')
