@@ -34,13 +34,9 @@ getCountry('HK').then(country => {
     console.log(`Error: ${error}`);
 })
 
-let fullLocation = ''
-getLocation().then((location) => {  
-    // console.log('location:', location)
-    fullLocation += `Your are currently in city: ${location.city}, region: ${location.region}`
-    return getCountry(location.country)
-}).then((country) => { 
-    console.log( fullLocation += `, country: ${country.name}`)
+// get current country
+getCurrentCountry().then((country) => {
+    console.log(country.name)
 }).catch((error) => {
-    console.log(`Error finding location: ${error}`);
+    console.log(`Error finding country: ${error}`);
 })

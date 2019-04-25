@@ -4,38 +4,43 @@
 
 // Making HTTP request
 
-const getPuzzle = (wordCount) => {
-    return fetch(`http://puzzle.mead.io/puzzle?wordCount=${wordCount}`, {}).then((response) => {
-        if (response.status === 200) {
-            return response.json()
-        } else {
-            throw new Error(`Unable to fetch puzzle. Status: ${response.status}`) 
-        }
-    }).then((data) => {
-        return data.puzzle
-    })
+const getPuzzle = async (wordCount) => { 
+    const response = await fetch(`http://puzzle.mead.io/puzzle?wordCount=${wordCount}`, {});
+
+    if (response.status === 200) {
+        const data = await response.json();
+        // console.log('data:', data)
+        return data.puzzle;
+    } else {
+        throw new Error('Unable to get puzzle')
+    }
 }
 
 // find country name
-const getCountry = (countryCode) => {
-    return fetch('http://restcountries.eu/rest/v2/all', {}).then((response) => {
-        if (response.status === 200) { 
-            return response.json()
-        } else {
-            throw new Error('Unable to fetch country data')
-        }
-    }).then((countries) => {   
+const getCountry = async (countryCode) => {
+    const response = await fetch('http://restcountries.eu/rest/v2/all', {});
+     
+    if (response.status === 200) {  
+        const countries = await response.json();
         return countries.find((country) => country.alpha2Code === countryCode); 
-    })
-}
+    } else {
+        throw new Error('Unable to fetch country data')
+    }   
+} 
 
 // find location
-const getLocation = () => {
-    return fetch('http://ipinfo.io/json?token=c3ba0d29663b21').then((response) => {
-        if (response.status === 200) {
-            return response.json()
-        } else {
-            throw new Error('Unable to find your location.')
-        }
-    })
+const getLocation = async () => {
+    const response = await fetch('http://ipinfo.io/json?token=c3ba0d29663b21');
+    
+    if (response.status === 200) {
+        return await response.json(); 
+    } else {
+        throw new Error('Unable to find your location.')
+    } 
+}
+
+// get current country
+const getCurrentCountry = async () => {
+    const location = await getLocation(); 
+    return getCountry(location.country);
 }
