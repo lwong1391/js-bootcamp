@@ -22,28 +22,25 @@ window.addEventListener('keypress', (e) => {
     guessEl.textContent = game1.statusMessage;
 })
 
-getPuzzle('2').then(puzzle => {
-    console.log(puzzle);
-}, (error) => {
-    console.log(`Error: ${error}`);
-}) 
+getPuzzle('2').then((puzzle) => {
+    console.log(puzzle) 
+}).catch((error) => {
+    console.log(error)
+})
 
 getCountry('HK').then(country => {
     console.log(`${country.alpha2Code}: ${country.name}`);
-}, (error) => {
+}).catch((error) => {
     console.log(`Error: ${error}`);
 })
 
-// Fetch API
-fetch('http://puzzle.mead.io/puzzle', {}).then((response) => {
-    if (response.status === 200) {
-        return response.json()
-       
-    } else {
-        throw new Error('Unable to fetch the puzzle')       // trigger the catch call below
-    }
-}).then((data) => {
-    console.log(`Fetch: ${data.puzzle}`)
+let fullLocation = ''
+getLocation().then((location) => {  
+    // console.log('location:', location)
+    fullLocation += `Your are currently in city: ${location.city}, region: ${location.region}`
+    return getCountry(location.country)
+}).then((country) => { 
+    console.log( fullLocation += `, country: ${country.name}`)
 }).catch((error) => {
-    console.log(error)
+    console.log(`Error finding location: ${error}`);
 })

@@ -28,4 +28,3 @@ myPromise.then((data) => {
 }, (err) => {
     console.log(err)
 })
-
