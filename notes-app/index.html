@@ -3,36 +3,41 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>JavaScript Bootcamp - Andrew Mead</title>
+    <title>Notes App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+    <link rel="icon" href="/notes-app//images/favicon.png">
+    <link rel="stylesheet" type="text/css" media="screen" href="/notes-app/styles/styles.css">
 </head>
 <body>
-    <h1>Notes App</h1>   
-    <h2>Take notes and never forget</h2>
+    <header class="header">
+        <div class="container">             
+            <h1 class="header__title ">Notes App</h1>  
+            <h2 class="header__subtitle">Take notes and never forget</h2>
+        </div>          
+    </header>
+    
+    <div class="actions">
+        <div class="actions__container">
+            <input id="search-text" class="input" type="text" placeHolder="Filter note">      
+            <select id="filter-by" class="dropdown">
+                <option value="byEdited">Sort by last edited</option>
+                <option value="byCreated">Sort by recently created</option>
+                <option value="byAlphabet">Sort alphabetically</option>
+            </select>
+        </div>
+    </div>
 
-    <input id="search-text" type="text" placeHolder="Filter note">
-
-    <select id="filter-by">
-        <option value="byEdited">Sort by last edited</option>
-        <option value="byCreated">Sort by recently created</option>
-        <option value="byAlphabet">Sort alphabetically</option>
-    </select>
-
-    <div id="notes"></div>  
-
-    <button id="create-note">Create Note</button>
- 
-    <label id="for-fun">
-        <input type="checkbox"> Check me for fun
-    </label>
+    <div class="container">
+        <div id="notes"></div>  
+        <button id="create-note" class="button">Create Note</button>
+    </div>
 
     <!-- <script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>  -->
     <!-- <script src="https://gist.github.com/andrewjmead/d64087c46129fc58df67c361cb01e889.js"></script> -->
-    <script src="../uuidv4.js"></script> 
+    <script src="/notes-app/scripts/uuidv4.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script> 
-    <script src="notes-functions.js"></script>
-    <script src="notes-app.js"></script>
+    <script src="/notes-app/scripts/notes-functions.js"></script>
+    <script src="/notes-app/scripts/notes-app.js"></script>
    
 </body>
 </html> 
