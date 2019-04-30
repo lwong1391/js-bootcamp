@@ -5,7 +5,7 @@
 // Making HTTP request
 
 const getPuzzle = async (wordCount) => { 
-    const response = await fetch(`http://puzzle.mead.io/puzzle?wordCount=${wordCount}`, {});
+    const response = await fetch(`//puzzle.mead.io/puzzle?wordCount=${wordCount}`, {});
 
     if (response.status === 200) {
         const data = await response.json();
@@ -17,7 +17,7 @@ const getPuzzle = async (wordCount) => {
 
 // find country name
 const getCountry = async (countryCode) => {
-    const response = await fetch('http://restcountries.eu/rest/v2/all', {});
+    const response = await fetch('//restcountries.eu/rest/v2/all', {});
      
     if (response.status === 200) {  
         const countries = await response.json();
@@ -29,7 +29,7 @@ const getCountry = async (countryCode) => {
 
 // find location
 const getLocation = async () => {
-    const response = await fetch('http://ipinfo.io/json?token=c3ba0d29663b21');
+    const response = await fetch('//ipinfo.io/json?token=c3ba0d29663b21');
     
     if (response.status === 200) {
         return await response.json(); 
