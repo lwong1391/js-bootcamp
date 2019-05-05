@@ -1,47 +1,16 @@
-'use strict'
-
-// Fetch existing todos from localStorage
-const getSavedTodos = () => {
-    const todoJSON = localStorage.getItem('todos');
-    try {
-        return todoJSON ? JSON.parse(todoJSON) : []; 
-    } catch(e) {
-        return []
-    }   
-}
-
-// save todos to localStorage
-const saveTodos = (todos) => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-}
-
-// remove todo by id
-const removeTodo = (id) => {
-    const todoIndex = todos.findIndex(todo => todo.id === id);  
-    if (todoIndex > -1) {
-        todos.splice(todoIndex,1); 
-    }
-}
-
-// Toggle the completed value for a given todo
-const toggleTodo = (id) => {
-    const todo = todos.find(todo => todo.id === id)
-
-    if (todo) {       //  if (todo !== undefined) 
-        todo.completed = !todo.completed;
-    }
-}
+import { getFilters } from './filters'
+import { getTodos, toggleTodo, removeTodo } from './todos'
 
 // render application todos based on filters 
-const renderTodos = (todos, filters) => {
-    const filteredTodos = todos.filter(todo => { 
+const renderTodos = () => {
+    const filters = getFilters();
+    const filteredTodos = getTodos().filter(todo => { 
         const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
         const hideCompletedMatch = !filters.hideCompleted || !todo.completed;
-        // debugger;
         return searchTextMatch && hideCompletedMatch;
     });  
 
-    const incompleteTodos = filteredTodos.filter(todo => !todo.completed);
+    const incompleteTodos = filteredTodos.filter(todo => !todo.completed); 
    
     const todoEl = document.querySelector('#todos');
     todoEl.innerHTML = ''; 
@@ -73,8 +42,7 @@ const generateTodoDOM = (todo) => {
     containerEl.appendChild(todoCB); 
     todoCB.addEventListener('change', () => {
         toggleTodo(todo.id);
-        saveTodos(todos);
-        renderTodos(todos, filters);
+        renderTodos();
     })
 
     // setup todo text
@@ -92,8 +60,7 @@ const generateTodoDOM = (todo) => {
     todoEl.appendChild(removeButton);
     removeButton.addEventListener('click', () => {  
         removeTodo(todo.id);
-        saveTodos(todos);
-        renderTodos(todos, filters);
+        renderTodos();
     });
 
     return todoEl;
@@ -108,3 +75,4 @@ const generateSummaryDOM = (incompleteTodos) => {
     return summary;
 }
 
+export { renderTodos }
